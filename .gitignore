@@ -1,0 +1,41 @@
+# Ignore everything in the elec directory
+/data/customers/elec/*
+
+# Except the entire Generic directory and its contents
+!/data/customers/elec/Generic
+
+/data/load_compilation/processed_files.json
+/data/load_compilation/*/*
+/data/processed/elec/facturas_elec.db
+/data/processed/elec/facturas_elec_manual.pkl
+/data/processed/elec/facturas_elec_manual.pkl
+/data/temp/*
+/notebooks/*/*.xml
+/data/raw/elec/ssaa_c2/*
+/data/verification_project/elec/compodem_a2/*
+/notebooks/*/*/*.xlsx
+/notebooks/*/*/*.csv
+/notebooks/*/*/*.json
+/notebooks/*/*/*.parquet
+/notebooks/*/*/*.pkl
+*.pdf
+*.zip
+*.xml
+*.json
+/outputs/invoice_comp/*
+!/outputs/invoice_comp/Generic_Seguimiento Electricidad.xlsx
+
+# Ignore everything in verification_project
+/outputs/verification_project/*
+
+# Except these specific paths
+!/outputs/verification_project/estim
+!/outputs/verification_project/verif
+
+# Ignore everything in estim and verif
+/outputs/verification_project/estim/*
+/outputs/verification_project/verif/*
+
+# Except the Generic folders
+!/outputs/verification_project/estim/Generic
+!/outputs/verification_project/verif/Generic

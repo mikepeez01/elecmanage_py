@@ -1,0 +1,6 @@
+setup.py
+src/Celtica_Reduced.egg-info/PKG-INFO
+src/Celtica_Reduced.egg-info/SOURCES.txt
+src/Celtica_Reduced.egg-info/dependency_links.txt
+src/Celtica_Reduced.egg-info/requires.txt
+src/Celtica_Reduced.egg-info/top_level.txt
