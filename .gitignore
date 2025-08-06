@@ -39,5 +39,7 @@
 # Except the Generic folders
 !/outputs/verification_project/estim/Generic
 !/outputs/verification_project/verif/Generic
+
+# Ignore all .DS_Store files in any directory
 .DS_Store
 **/.DS_Store
