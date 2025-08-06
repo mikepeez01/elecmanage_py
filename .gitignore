@@ -22,8 +22,9 @@
 *.zip
 *.xml
 *.json
-/outputs/invoice_comp/*
-!/outputs/invoice_comp/Generic_Seguimiento Electricidad.xlsx
+
+/outputs/invoice_comp/elec/*
+!/outputs/invoice_comp/elec/Generic_Seguimiento Electricidad.xlsx
 
 # Ignore everything in verification_project
 /outputs/verification_project/*
@@ -40,7 +41,28 @@
 !/outputs/verification_project/estim/Generic
 !/outputs/verification_project/verif/Generic
 
-# Ignore all .DS_Store files in any directory
+# macOS system files
 .DS_Store
-**/.DS_Store__pycache__/
+**/.DS_Store
+
+# Python cache files
+__pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Virtual environment
+venv/
+env/
+.env
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
