@@ -1,5 +1,19 @@
 base_path: "../../"
 
+configs: 
+  folder: "../../configs"
+  config: "../../configs/config.yaml"
+  templates:
+    folder: " ../../configs/templates"
+    verification_template: "../../configs/templates/verification_params_template.yaml"
+    load_compilation_template: "../../configs/load_compilation/load_params_template.yaml"
+  verification_project:
+    folder: "../../configs/templates/verification_project"
+    verification_params: "../../configs/verification_project/verification_params.yaml"
+  load_compilation:
+    folder: "../../configs/templates/load_compilation"
+    load_compilation_params: "../../configs/load_compilation/load_params.yaml"
+
 data_path:
   elec:
     folder: "../../data/elec"
@@ -31,6 +45,7 @@ data_path:
     customers:
       folder: "../../data/customers/elec"
       alias_elec: "../../data/customers/elec/alias_clientes_elec.xlsx"
+      alias_elec_template: "../../data/customers/elec/alias_clientes_elec_template.xlsx"
       customer_single:
         folder: "../../data/customers/elec/{customer_id}"
         customer_data: "../../data/customers/elec/{customer_id}/datos_ELEC_{customer_id}_{contract_id}.xlsm"
@@ -111,11 +126,11 @@ notebooks:
     manual_extract: "../../notebooks/invoice_comp/1C_manual_extract.ipynb"
     cg_manual_extract: "../../notebooks/invoice_comp/1CG_manual_extract.ipynb"
     export: "../../notebooks/invoice_comp/2_export.ipynb"
-    md: "../../notebooks/invoice_comp/3_md.ipynb"
   load_compilation:
     folder: "../../notebooks/load_compilation"
     clean: "../../notebooks/load_compilation/1_elec.ipynb"
-    compile: "../../notebooks/load_compilation/2_Creara_compilation.ipynb"
+    creara_api: "../../notebooks/load_compilation/2_Creara_compilation.ipynb"
+    linkener_api: "../../notebooks/load_compilation/2_Linkener_compilation.ipynb"
     export: "../../notebooks/load_compilation/3_Compile_load.ipynb"
   shared:
     folder: "../../notebooks/shared"
@@ -169,6 +184,11 @@ outputs:
       csv: "../../outputs/load_compilation/data/{name}.csv"
       pickle: "../../outputs/load_compilation/data/{name}.pkl"
       parquet: "../../outputs/load_compilation/data/{name}.parquet"
+    notebooks:
+      folder: "../../outputs/load_compilation/notebooks"
+      export: "../../outputs/load_compilation/notebooks/3_Compile_load_out.ipynb"
+      creara_api: "../../outputs/load_compilation/notebooks/2_Creara_compilation_out.ipynb"
+    linkener_api: "../../outputs/load_compilation/notebooks/2_Linkener_compilation_out.ipynb"
   verification_project:
     folder: "../../outputs/verification_project"
     estim:
@@ -185,9 +205,26 @@ outputs:
         output_verif_excel: "../../outputs/verification_project/verif/{customer_id}/raw/{year}/{month}/Verificación Fra. {start_date}_{end_date} {alias}.xlsx"
         invoice_path_pickle: "../../outputs/verification_project/verif/{customer_id}/raw/{year}/{month}/Verificación Fra. {start_date}_{end_date} {alias}.pkl"
         output_verif_nb: "../../outputs/verification_project/verif/{customer_id}/notebooks/{year}/{month}/Verificación Fra. {start_date}_{end_date} {alias}.ipynb"
+    notebooks:
+      folder: "../../outputs/verification_project/notebooks"
+      elec_1: "../../outputs/verification_project/notebooks/1_elec_out.ipynb"
+      build_matrix: "../../outputs/verification_project/notebooks/3_Build_OMIE_matrix_out.ipynb"
+      build_matrix_estim: "../../outputs/verification_project/notebooks/3B_Build_OMIE_matrix_estim_out.ipynb"
+      read_contract: "../../outputs/verification_project/notebooks/4A_Read_Contract_out.ipynb"
+      merge_market_contract: "../../outputs/verification_project/notebooks/4B_Merge_Contract_OMIE_out.ipynb"
+      hunt_invoices: "../../outputs/verification_project/notebooks/5_Hunt_Invoices_out.ipynb"
+      estimacion: "../../outputs/verification_project/notebooks/5C_Estimacion_out.ipynb"
 
   invoice_comp:
     folder: "../../outputs/invoice_comp"
     elec: 
       folder: "../../outputs/invoice_comp/elec"
       seguimiento: "../../outputs/invoice_comp/elec/{client_id}_Seguimiento Electricidad.xlsx"
+  shared:
+    folder: "../../outputs/shared"
+    notebooks:
+      folder: "../../outputs/shared/notebooks"
+      elec_markets_2a: "../../outputs/shared/notebooks/2A_Elec_Markets_out.ipynb"
+      elec_markets_2b: "../../outputs/shared/notebooks/2B_Elec_Markets_out.ipynb"
+      perdidas: "../../outputs/shared/notebooks/2C_Perd_out.ipynb"
+      ssaa: "../../outputs/shared/notebooks/2D_SSAA_out.ipynb"

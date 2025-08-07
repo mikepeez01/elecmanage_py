@@ -1,8 +1,9 @@
 # Ignore everything in the elec directory
 /data/customers/elec/*
 
-# Except the entire Generic directory and its contents
+# Except the entire Generic directory and alias template file
 !/data/customers/elec/Generic
+!/data/customers/elec/alias_clientes_elec_template.xlsx
 
 /data/load_compilation/processed_files.json
 /data/load_compilation/*/*
@@ -13,18 +14,25 @@
 /notebooks/*/*.xml
 /data/raw/elec/ssaa_c2/*
 /data/verification_project/elec/compodem_a2/*
-/notebooks/*/*/*.xlsx
-/notebooks/*/*/*.csv
-/notebooks/*/*/*.json
-/notebooks/*/*/*.parquet
-/notebooks/*/*/*.pkl
+/notebooks/*/*.xlsx
+/notebooks/*/*.csv
+/notebooks/*/*.json
+/notebooks/*/*.parquet
+/notebooks/*/*.pkl
 *.pdf
 *.zip
 *.xml
 *.json
 
+/configs/*
+!/configs/templates/
+!/configs/templates/*
+
 /outputs/invoice_comp/elec/*
 !/outputs/invoice_comp/elec/Generic_Seguimiento Electricidad.xlsx
+
+# Ignore all output notebooks and 
+/outputs/*/notebooks/*
 
 # Ignore everything in verification_project
 /outputs/verification_project/*
@@ -40,6 +48,8 @@
 # Except the Generic folders
 !/outputs/verification_project/estim/Generic
 !/outputs/verification_project/verif/Generic
+
+notebooks/manual/0_CapturedPrice.ipynb
 
 # macOS system files
 .DS_Store
