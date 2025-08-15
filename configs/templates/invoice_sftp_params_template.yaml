@@ -1,0 +1,39 @@
+provider1:
+  execute: true
+  host: "sftp.example1.com"
+  port: 1222
+  username: "user_example1"
+  password: "a1b2c3d4e5f6g7h8"
+  remote_dir: "remote_dir1"
+
+provider2:
+  execute: false
+  host: "sftp.example2.net"
+  port: 2022
+  username: "user_example2"
+  password_b64: "ZXhhbXBsZV9wYXNzdzI="
+  remote_dir: "data_shared"
+
+provider3:
+  execute: true
+  host: "sftp.example3.org"
+  port: 8022
+  username: "user3"
+  password: "7g5f3h2d1c9b0a6e"
+  remote_dir: "upload_folder"
+
+provider4:
+  execute: false
+  host: "file-transfer.example4.io"
+  port: 2222
+  username: "sampleuser"
+  password_b64: "bXlwYXNzd29yZF9leGFtcGxlNA=="
+  remote_dir: "exchange"
+
+provider5:
+  execute: true
+  host: "datahost.example5.co"
+  port: 10022
+  username: "data_user5"
+  password: "randompass12345"
+  remote_dir: "incoming"

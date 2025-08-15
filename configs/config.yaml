@@ -6,13 +6,17 @@ configs:
   templates:
     folder: "configs/templates"
     verification_template: "configs/templates/verification_params_template.yaml"
-    load_compilation_template: "configs/load_compilation/provider_params_template.yaml"
+    load_compilation_template: "configs/load_compilation/metering_provider_params_template.yaml"
+    invoice_sftp_params: "configs/invoice_comp/invoice_sftp_params_template.yaml"
   verification_project:
     folder: "configs/templates/verification_project"
     verification_params: "configs/verification_project/verification_params.yaml"
   load_compilation:
     folder: "configs/templates/load_compilation"
-    provider_params: "configs/load_compilation/provider_params.yaml"
+    provider_params: "configs/load_compilation/metering_provider_params.yaml"
+  invoice_comp:
+    folder: "configs/invoice_comp"
+    sftp_params: "configs/invoice_comp/invoice_sftp_params.yaml"
 logs:
   folder: "logs"
   exe: "logs/{log_name}.log"
@@ -83,8 +87,9 @@ data_path:
       xml_folder_clean: "data/invoice_comp/elec/xml_folder_clean"
       processed_files: "data/invoice_comp/elec/processed_files.json"
       processed_files: "data/invoice_comp/elec/processed_files.json"
-      record_cepsa: "data/invoice_comp/elec/record_cepsa.json"
-      record_total: "data/invoice_comp/elec/record_total.json"
+      record_sftp_provider: "data/invoice_comp/elec/record_{provider}.json"
+      invoices: 
+        folder: "data/invoice_comp/elec/invoices"
     load_compilation:
       folder: "data/load_compilation/elec"
       processed_files: "data/load_compilation/processed_files.json"
@@ -93,7 +98,7 @@ data_path:
     position_report:
       folder: "data/position_report/elec"
       apuntamientos: "data/position_report/elec/apuntamientos.pkl"
-    verification_projet:
+    verification_project:
       folder: "data/elec/verification_project/elec"
       omie_matrix: "data/verification_project/elec/omie_matrix_{operation}.pkl"
       compodem_a2: "data/verification_project/elec/compodem_a2"
