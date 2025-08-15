@@ -1,14 +1,18 @@
+# Save copy as verification_params at configs/verification_project/verification_params.yaml
+
 # Verification/Estimation Parameters
-cliente: "Generic"
+cliente: "Grupo Inspired"
 estim_year: 2025
 estim_month: 6
 issue_year: 2025
 issue_month: 6
 
-# Operation type: 'verif' or 'stim'
+# Operation type: 'verif' or 'estim'
 operation: "verif"
 
 # Control flags
 update_contract_data: true
 api_call: false
 ssaa_dn: false
+
+

@@ -1,0 +1,16 @@
+# Save copy as provider_params at configs/load_compilation/provider_params.yaml
+
+# Select metering provider notebooks to execute. Add fields as providers are added
+creara: 
+  execute: true
+  params:
+    start_date: "2025-07-01"
+    end_date: "2025-07-31"
+  credentials:
+    client_id: "id"
+    client_secret: "key"
+    grant_type: "client_credentials"
+  
+linkener: # IP must be set with linkener_ip, otherwise error will be displayed
+  execute: false
+

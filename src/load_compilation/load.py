@@ -11,7 +11,6 @@ from bs4 import BeautifulSoup
 class Load:
 
     def __init__(self, 
-                 year: int,
                  periodos_path: str,
                  festivos_path:str,
                  base_path:str, 
@@ -19,7 +18,6 @@ class Load:
                  provider_dict: dict,
                  processed_files_path='processed_files.json'):
 
-        self.year = year
         self.periodos_path = periodos_path
         self.festivos_path = festivos_path
         self.base_path = base_path 

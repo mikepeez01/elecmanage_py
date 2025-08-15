@@ -1,6 +1,9 @@
 # Ignore everything in the elec directory
 /data/customers/elec/*
 
+# Logs
+/logs/*
+
 # Except the entire Generic directory and alias template file
 !/data/customers/elec/Generic
 !/data/customers/elec/alias_clientes_elec_template.xlsx
@@ -10,6 +13,8 @@
 /data/processed/elec/facturas_elec.db
 /data/processed/elec/facturas_elec_manual.pkl
 /data/processed/elec/facturas_elec_manual.pkl
+/data/verification_project/elec/omie_matrix_estim.pkl
+/data/verification_project/elec/omie_matrix_verif.pkl
 /data/temp/*
 /notebooks/*/*.xml
 /data/raw/elec/ssaa_c2/*
@@ -49,7 +54,8 @@
 !/outputs/verification_project/estim/Generic
 !/outputs/verification_project/verif/Generic
 
-notebooks/manual/0_CapturedPrice.ipynb
+/notebooks/manual/0_CapturedPrice.ipynb
+/notebooks/manual/0_General.ipynb
 
 # macOS system files
 .DS_Store
