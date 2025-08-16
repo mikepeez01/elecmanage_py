@@ -10,7 +10,13 @@
 !/data/customers/elec/alias_clientes_elec_template.xlsx
 
 /data/load_compilation/processed_files.json
-/data/load_compilation/*/*
+
+# Ignore all files and folders under elec
+/data/load_compilation/elec/**
+
+# Do not ignore .gitkeep files anywhere inside elec (including subfolders)
+!/data/load_compilation/elec/**/.gitkeep
+
 /data/processed/elec/facturas_elec.db
 /data/processed/elec/facturas_elec_manual.pkl
 /data/processed/elec/facturas_elec_manual.pkl

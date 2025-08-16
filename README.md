@@ -1,154 +1,190 @@
-# Sistema de Gestión y Automatización Energética
+***
 
-## 📋 Descripción del Proyecto
+# Energy Data Automation & Analysis Project
 
-Sistema automatizado desarrollado en Python para la gestión energética y asesoramiento en el mercado eléctrico español. El proyecto integra múltiples fuentes de datos para proporcionar análisis, informes y herramientas de apoyo a la toma de decisiones en el sector energético.
+***
 
-### Funcionalidades Principales
+## Overview
 
-- **Compilación y procesamiento de facturas** eléctricas (XML/PDF)
-- **Consolidación de curvas de carga** de múltiples proveedores
-- **Análisis de contratos** y condiciones de suministro
-- **Seguimiento de regulación** y componentes tarifarios
-- **Informes de mercado** con precios spot y futuros
-- **Verificación automática** de facturación
-- **Generación de informes** personalizados por cliente
+This repository contains code, configuration, and notebook pipelines for advanced automation, management, and analysis of Spanish electrical market data and processes.  
+All directory structure, templates, and outputs are organized and referenced via a centralized `config.yaml` file.
 
-## 🏗️ Arquitectura del Sistema
+> **Base Path:**  
+> `/Users/mikelperez/0_Python_projects_v3_reduced/0_Python_projects_reduced/`  
+> All routes in this project are relative to this root directory.
 
-El proyecto está organizado en una estructura modular que facilita el mantenimiento y la escalabilidad:
+***
 
-├── src/ # Módulos y librerías Python
-├── notebooks/ # Notebooks Jupyter para análisis
-│ └── elec/ # Notebooks específicos de electricidad
-├── data/ # Datos de entrada (no incluidos)
-│ ├── raw/ # Datos brutos
-│ ├── processed/ # Datos procesados
-│ ├── customers/ # Información de clientes
-│ └──
-└── outputs/ # Resultados y informes generados
-├── market_report/ # Informes de mercado
-├── load_compilation/ # Compilación de cargas
-└── invoice/ # Gestión de facturas
+## Access
+
+**This repository is private.**  
+To access the code, you must request a personal access token from the maintainer.
+
+> To request access, contact **Mikel Pérez** at [mperezyarno@alumni.unav.es](mailto:mperezyarno@alumni.unav.es).
+
+***
+
+## Features
+
+- **Reusable Path Configuration:** All folders and files defined in `config.yaml`.
+- **Automated Jupyter Notebooks:** Orchestrate notebook pipelines using Papermill, with input and output paths centrally managed.
+- **Structured Outputs:** Automated and manual report and data exports.
+- **Flexible Data Sources:** SFTP, Excel, Parquet, Pickle, CSV, and dynamic template support.
+- **Extensible:** Easily add providers, outputs, and notebook workflows.
+
+***
+
+## Project Structure
 
 
-## 🛠️ Tecnologías Utilizadas
+Directory tree (partial)
 
-- **Python 3.x** - Lenguaje principal de desarrollo
-- **Jupyter Notebooks** - Análisis interactivo y documentación
-- **Papermill** - Automatización y parametrización de notebooks
-- **Pandas** - Manipulación y análisis de datos
-- **Matplotlib/Plotly** - Visualización de datos
-- **SQLite** - Base de datos para facturas procesadas
+```
+configs/
+│   ├── config.yaml
+│   ├── templates/
+│   ├── verification_project/
+│   ├── load_compilation/
+│   └── invoice_comp/
+logs/
+│   └── {log_name}.log
+data/
+│   ├── elec/
+│   ├── raw/
+│   ├── temp/
+│   ├── processed/
+│   ├── customers/
+│   ├── regulation/
+│   ├── invoice_comp/
+│   ├── load_compilation/
+│   ├── position_report/
+│   ├── verification_project/
+│   └── market_report/
+notebooks/
+│   ├── automated/
+│   ├── manual/
+│   ├── invoice_comp/
+│   ├── load_compilation/
+│   ├── markets/
+│   └── verification_project/
+outputs/
+│   ├── markets/
+│   ├── invoice_comp/
+│   ├── load_compilation/
+│   └── verification_project/
+```
 
-## 📂 Configuración de Rutas
 
-El archivo `config.yaml` contiene todas las rutas relevantes del proyecto, facilitando la organización y acceso a los diferentes recursos. La estructura está diseñada para soportar múltiples clientes y subproyectos de forma independiente.
+See the full structure and dynamic placeholders (`{name}`, `{provider}`, etc.) in `configs/config.yaml`.
 
-## 🚀 Instalación y Configuración
+***
 
-### Prerrequisitos
+## Installation & Setup
 
-- Python 3.12 o superior
-- pip (gestor de paquetes de Python)
+### 1. Clone Repository
 
-### Instalación de Dependencias
+Request your personal access token and use:
 
+```bash
+git clone https://@github.com/[your-username]/[your-repo].git
+cd [your-repo]
+```
+
+### 2. Create Anaconda Environment
+
+```bash
+conda create -n elec_env python=3.10
+conda activate elec_env
+```
+
+### 3. Install Requirements
+
+All main requirements are managed via the `setup.py` file:
+
+```bash
+pip install .
+```
+
+Or, for development:
+```bash
 pip install -e .
+```
 
-### Estructura de Datos Esperada
+***
 
-Por motivos de confidencialidad, este repositorio **no incluye datos reales de clientes**. Para el funcionamiento del sistema, se requiere la siguiente estructura de datos:
+## Configuration
 
-#### Datos de Entrada (`data/`)
-- **Facturas:** Archivos XML o PDF de facturas eléctricas
-- **Curvas de carga:** Archivos en formato xlsx, csv, html o parquet
-- **Contratos:** Información contractual en plantillas Excel estandarizadas
-- **Regulación:** Archivos con peajes, cargos e impuestos vigentes
-- **Puntos de suministro:** Archivo maestro con información de CUPS y tarifas (`data/customers/elec_data_clientes_elec.xlsx`)
+All source, output, and template paths are set in `configs/config.yaml`, with dynamic placeholders for flexible data use.  
+Edit this file to customize paths for your instance.
 
-#### Datos Procesados (`data/processed/`)
-- Base de datos de facturas (`facturas_elec.db`)
-- Curvas consolidadas (`elec_load.parquet`)
-- Precios spot y futuros (`spot.parquet`, `futuros_elec.parquet`)
+**Example:**
+```yaml
+outputs:
+  markets:
+    elec:
+      graphs:
+        html: "outputs/markets/elec/graphs/{name}.html"
+        excel: "outputs/markets/elec/graphs/{name}.xlsx"
+```
 
-## 📊 Uso del Sistema
+***
 
-### Ejecución de Notebooks
+## Usage
 
-Los notebooks se ejecutan mediante Papermill para garantizar reproducibilidad.
+### Running Notebooks
 
-## ⚡ Subproyectos
+You can execute analysis, ETL, or reporting notebooks with Papermill (for automation) or interactively:
 
-### 1. Invoice Compilation
-- Procesamiento automático de facturas XML y PDF
-- Estandarización de datos de facturación
-- Base de datos centralizada de información
+```bash
+papermill notebooks/markets/2a_elec_Markets.ipynb outputs/markets/notebooks/elec/2a_elec_Markets_out.ipynb -p param_name value
+```
 
-### 2. Load Compilation
-- Consolidación de curvas de carga horarias y cuarto-horarias
-- Integración de datos de múltiples proveedores
-- Análisis de consumo por cliente y tarifa
+### Directory Tracking & Git Ignore
 
-### 3. Market Report
-- Informes periódicos del mercado eléctrico
-- Análisis de precios spot y futuros
-- Gráficos y visualizaciones de tendencias
+To keep necessary subfolders tracked (even if empty), `.gitkeep` files are used. See the `.gitignore` pattern:
 
-### 4. Verification Project
-- Verificación automática de facturación
-- Detección de anomalías y discrepancias
-- Informes de control y seguimiento
+```gitignore
+/data/load_compilation/elec/**
+!/data/load_compilation/elec/**/.gitkeep
+```
 
-### Generación de Informes
+***
 
-Los informes se generan automáticamente en la carpeta `outputs/` organizados por:
-- Tipo de informe
-- Cliente
-- Fecha de generación
+## Documentation & Thesis
 
-## 📈 Outputs del Sistema
+- Complete directory and path configuration is annexed in the thesis (Appendix X).
+- For canonical and updated path/config, refer to [`configs/config.yaml`](./configs/config.yaml).
+- All dynamic placeholders (`{}` brackets) are explained in the thesis and config documentation.
 
-### Informes Generados
-- **Seguimiento de facturación** por cliente
-- **Archivo de curvas de carga** consolidadas
-- **Verificaciones automáticas** de facturación en formato pdf
-- **Gráficos analíticos** de consumo y precios
+***
 
-### Formatos de Salida
-- Excel (.xlsx)
-- PDF para informes finales
-- HTML para visualizaciones interactivas
-- Parquet para grandes volúmenes de datos
+## Contributing
 
-## 🔒 Consideraciones de Privacidad
+This is a closed repository. For collaboration and code review, contact the primary maintainer.  
+Contribution guidelines are in `CONTRIBUTING.md`.
 
-Este proyecto maneja información sensible de clientes y datos comerciales. Por este motivo:
+***
 
-- **No se incluyen datos reales** en el repositorio público
-- La estructura está preparada para datos que cumplan los formatos especificados
-- Se recomienda implementar medidas adicionales de seguridad en entornos productivos
+## License
 
-## 🤝 Contribución
+This project is under MIT License (see `LICENSE` file).
 
-Para contribuir al proyecto:
+***
 
-1. Fork del repositorio
-2. Crear una rama para la nueva funcionalidad
-3. Realizar commits con mensajes descriptivos
-4. Enviar pull request con descripción detallada
+## Contact
 
+For repository access, issues, or project collaboration, contact:  
+**Mikel Pérez** ([mikelperez@yourdomain.com](mailto:mikelperez@yourdomain.com))
 
-## 📧 Contacto
+***
 
-Mikel Pérez Yárnoz
-mikelperezy01@gmail.com
-+34 664 187 473
+**Note:**  
+- Update or provide your actual email and GitHub URL before distribution.  
+- All dependency management is handled in `setup.py` for simplicity and full control.  
+- Consider linking your thesis directly if allowed.
 
----
+***
 
-**Nota:** Este sistema ha sido desarrollado específicamente para el mercado eléctrico español y está adaptado a la regulación vigente. Para su uso en otros mercados, se requeriría adaptación de los módulos regulatorios.
+*Copy and adapt the above Markdown to your repo as needed.*
 
-
-
-
+[1] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/56415052/ee2f58d5-43fd-4408-9d18-d214a5d85d16/config.yaml

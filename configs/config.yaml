@@ -8,6 +8,10 @@ configs:
     verification_template: "configs/templates/verification_params_template.yaml"
     load_compilation_template: "configs/load_compilation/metering_provider_params_template.yaml"
     invoice_sftp_params: "configs/invoice_comp/invoice_sftp_params_template.yaml"
+    market_params: "configs/markets/market_params_template.yaml"
+  markets:
+    folder: "configs/markets"
+    market_params: "configs/markets/market_params.yaml"
   verification_project:
     folder: "configs/templates/verification_project"
     verification_params: "configs/verification_project/verification_params.yaml"
@@ -154,6 +158,56 @@ notebooks:
     hunt_invoices: "notebooks/verification_project/5_hunt_invoices.ipynb"
     estimacion: "notebooks/verification_project/5c_estimacion.ipynb"
 
+scripts:
+  folder: "scripts"
+  invoice_comp:
+    folder: "scripts/invoice_comp"
+    exe: "scripts/invoice_comp/invoice_comp_exe.py"
+  markets:
+    folder: "scripts/markets"
+    exe: "scripts/markets/markets_exe.py"
+  load_compilation:
+    folder: "scripts/load_compilation"
+    exe: "scripts/load_compilation/load_compilation_exe.py"
+  verification_project:
+    folder: "scripts/verification_project"
+    exe: "scripts/verification_project/verification_project_exe.py"
+
+src:
+  config:
+    folder: "src/config"
+    config_loader: "src/config/config_loader.py"
+  invoice_comp:
+    folder: "src/invoice_comp"
+    invoice_provider: "src/invoice_comp/{provider}.py"
+    check_utility: "src/invoice_comp/check_utility.py"
+    facturas: "src/invoice_comp/facturas.py"
+    exe_helper: "src/invoice_comp/invoice_comp_exe_helper.py"
+    sftp_helper: "src/invoice_comp/sftp_helper.py"
+  load_compilation:
+    folder: "src/load_compilation"
+    exe_helper: "src/load_compilation/load_compilation_exe_helper.py"
+    load: "src/load_compilation/load.py"
+    provide_nb_exe: "src/load_compilation/provider_notebook_executor.py"
+  shared:
+    folder: "src/shared"
+    festivos: "src/shared/apply_festivos_omie.py"
+    dicts: "src/shared/dicts.py"
+    elec_price_op: "src/shared/elec_price_op.py"
+    esios_api: "src/shared/esios_api.py"
+    read_contracts: "src/shared/read_contracts.py"
+    read_regulation: "src/shared/read_regulation.py"
+    ssaa_ree: "src/shared/ssaa_ree.py"
+  utils:
+    folder: "src/utils"
+    logging: "src/utils/logging_setup.py"
+    utils_dates: "src/utils/utils_dates.py"
+    utils_var: "src/utils/utils_var.py"
+  verification_project:
+    folder: "src/verification_project"
+    liquidation: "src/verification_project/liquidation.py"
+    verif_potencia: "src/verification_project/verif_potencia.py"
+
 outputs:
   markets:
     folder: "outputs/markets"
@@ -173,12 +227,12 @@ outputs:
         csv: "outputs/markets/data/elec/{name}.csv"
         pickle: "outputs/markets/data/elec/{name}.pkl"
         parquet: "outputs/markets/data/elec/{name}.parquet"
-      notebooks:
-        folder: "outputs/markets/notebooks"
-        elec_markets_2a: "outputs/markets/notebooks/elec/2a_elec_Markets_out.ipynb"
-        elec_markets_2b: "outputs/markets/notebooks/elec/2b_Elec_Markets_out.ipynb"
-        perdidas: "outputs/markets/notebooks/elec/2c_Perd_out.ipynb"
-        ssaa: "outputs/markets/notebooks/elec/2d_ssaa_out.ipynb"
+    notebooks:
+      folder: "outputs/markets/notebooks"
+      elec_markets_2a: "outputs/markets/notebooks/2a_elec_markets_out.ipynb"
+      elec_markets_2b: "outputs/markets/notebooks/2b_elec_markets_out.ipynb"
+      perdidas: "outputs/markets/notebooks/2c_Perd_out.ipynb"
+      ssaa: "outputs/markets/notebooks/2d_ssaa_out.ipynb"
   invoice_comp:
     folder: "outputs/invoice_comp"
     elec: 
@@ -207,7 +261,7 @@ outputs:
       parquet: "outputs/load_compilation/data/{name}.parquet"
     notebooks:
       folder: "outputs/load_compilation/notebooks"
-      load_compile: "outputs/load_compilation/notebooks/2_Compile_load_out.ipynb"
+      load_compile: "outputs/load_compilation/notebooks/2_compile_load_out.ipynb"
       provider_nb: "outputs/load_compilation/notebooks/1_{provider}_compilation_out.ipynb"
   verification_project:
     folder: "outputs/verification_project"
