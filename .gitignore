@@ -1,5 +1,6 @@
 # Logs
 /logs/*
+!/logs/.gitkeep
 
 # Ignore everything in the elec directory
 /data/customers/elec/*
@@ -15,10 +16,13 @@
 /data/processed/elec/facturas_elec_manual.pkl
 /data/verification_project/elec/omie_matrix_estim.pkl
 /data/verification_project/elec/omie_matrix_verif.pkl
-/data/temp/*
-/notebooks/*/*.xml
-/data/raw/elec/ssaa_c2/*
+/data/temp/elec/*
+!/data/temp/elec/.gitkeep
+/data/raw/elec/ssaa_c2/raw.zip
+/data/raw/elec/ssaa_c2/raw_data/*
+!/data/raw/elec/ssaa_c2/raw_data/.gitkeep
 /data/verification_project/elec/compodem_a2/*
+!/data/verification_project/elec/compodem_a2/.gitkeep
 /notebooks/*/*.xlsx
 /notebooks/*/*.csv
 /notebooks/*/*.json
@@ -39,23 +43,20 @@
 # Ignore all output notebooks and 
 /outputs/*/notebooks/*
 
-# Ignore everything in verification_project
-/outputs/verification_project/*
-
-# Except these specific paths
-!/outputs/verification_project/estim
-!/outputs/verification_project/verif
-
 # Ignore everything in estim and verif
 /outputs/verification_project/estim/*
 /outputs/verification_project/verif/*
 
-# Ignore market data outputs
-/outputs/markets/*
-
 # Except the Generic folders
 !/outputs/verification_project/estim/Generic
 !/outputs/verification_project/verif/Generic
+
+# 
+/outputs/verification_project/notebooks/*
+!/outputs/verification_project/notebooks/.gitkeep
+
+# Ignore market data outputs
+/outputs/markets/*
 
 /notebooks/manual/0_CapturedPrice.ipynb
 /notebooks/manual/0_General.ipynb
@@ -63,6 +64,7 @@
 /notebooks/manual/*.csv
 /notebooks/manual/*.parquet
 /notebooks/manual/*.pkl
+/notebooks/*/*.xml
 
 # macOS system files
 .DS_Store
@@ -89,3 +91,10 @@ env/
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
+
+# Keep folders using gitkeep files
+
+!/*/.gitkeep
+!/*/*/.gitkeep
+!/*/*/*/.gitkeep
+!/*/*/*/*/.gitkeep
