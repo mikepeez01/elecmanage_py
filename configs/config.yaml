@@ -137,12 +137,12 @@ notebooks:
     clean: "notebooks/load_compilation/1_elec.ipynb"
     provider_nb: "notebooks/load_compilation/2_{provider}_compilation.ipynb"
     load_compile: "notebooks/load_compilation/3_compile_load.ipynb"
-  shared:
-    folder: "notebooks/shared"
-    elec_markets_2a: "notebooks/shared/2a_elec_Markets.ipynb"
-    elec_markets_2b: "notebooks/shared/2b_elec_Markets.ipynb"
-    perdidas: "notebooks/shared/2c_perd.ipynb"
-    ssaa: "notebooks/shared/2d_ssaa.ipynb"
+  markets:
+    folder: "notebooks/markets"
+    elec_markets_2a: "notebooks/markets/2a_elec_Markets.ipynb"
+    elec_markets_2b: "notebooks/markets/2b_elec_Markets.ipynb"
+    perdidas: "notebooks/markets/2c_perd.ipynb"
+    ssaa: "notebooks/markets/2d_ssaa.ipynb"
   verification_project:
     folder: "notebooks/verification_project"
     elec: "notebooks/verification_project/1_elec.ipynb"
@@ -155,24 +155,40 @@ notebooks:
     estimacion: "notebooks/verification_project/5c_estimacion.ipynb"
 
 outputs:
-  market_report:
-    folder: "outputs/market_report"
+  markets:
+    folder: "outputs/markets"
     elec: 
-      folder: "outputs/market_report/elec"
+      folder: "outputs/markets/elec"
       graphs: 
-        folder: "outputs/market_report/elec/graphs"
-        html: "outputs/market_report/elec/graphs/{name}.html"
-        excel: "outputs/market_report/elec/graphs/{name}.xlsx"
-        csv: "outputs/market_report/elec/graphs/{name}.csv"
-        pickle: "outputs/market_report/elec/graphs/{name}.pkl"
-        parquet: "outputs/market_report/elec/graphs/{name}.parquet"
+        folder: "outputs/markets/elec/graphs"
+        html: "outputs/markets/elec/graphs/{name}.html"
+        excel: "outputs/markets/elec/graphs/{name}.xlsx"
+        csv: "outputs/markets/elec/graphs/{name}.csv"
+        pickle: "outputs/markets/elec/graphs/{name}.pkl"
+        parquet: "outputs/markets/elec/graphs/{name}.parquet"
       data:
-        folder: "outputs/market_report/data/elec"
-        html: "outputs/market_report/data/elec/{name}.html"
-        excel: "outputs/market_report/data/elec/{name}.xlsx"
-        csv: "outputs/market_report/data/elec/{name}.csv"
-        pickle: "outputs/market_report/data/elec/{name}.pkl"
-        parquet: "outputs/market_report/data/elec/{name}.parquet"
+        folder: "outputs/markets/data/elec"
+        html: "outputs/markets/data/elec/{name}.html"
+        excel: "outputs/markets/data/elec/{name}.xlsx"
+        csv: "outputs/markets/data/elec/{name}.csv"
+        pickle: "outputs/markets/data/elec/{name}.pkl"
+        parquet: "outputs/markets/data/elec/{name}.parquet"
+      notebooks:
+        folder: "outputs/markets/notebooks"
+        elec_markets_2a: "outputs/markets/notebooks/elec/2a_elec_Markets_out.ipynb"
+        elec_markets_2b: "outputs/markets/notebooks/elec/2b_Elec_Markets_out.ipynb"
+        perdidas: "outputs/markets/notebooks/elec/2c_Perd_out.ipynb"
+        ssaa: "outputs/markets/notebooks/elec/2d_ssaa_out.ipynb"
+  invoice_comp:
+    folder: "outputs/invoice_comp"
+    elec: 
+      folder: "outputs/invoice_comp/elec"
+      seguimiento: "outputs/invoice_comp/elec/{client_id}_Seguimiento Electricidad.xlsx"
+    notebooks:
+      folder: "outputs/invoice_comp/notebooks"
+      arrange: "outputs/invoice_comp/notebooks/1a_arrange_out.ipynb"
+      extract: "outputs/invoice_comp/notebooks/1b_extract_out.ipynb"
+      export: "outputs/invoice_comp/notebooks/2_export_out.ipynb"
   load_compilation:
     folder: "outputs/load_compilation"
     graphs: 
@@ -216,6 +232,8 @@ outputs:
       ssaa: "outputs/verification_project/notebooks/1c_shared_2d_ssaa_out.ipynb"
       provider_nb: "outputs/verification_project/notebooks/1d_load_compilation_2_{provider}_compilation_out.ipynb"
       load_compile: "outputs/verification_project/notebooks/1e_load_compilation_3_compile_load_out.ipynb"
+      arrange: "outputs/verification_project/notebooks/1f_invoice_comp_1a_arrange_out.ipynb"
+      extract: "outputs/verification_project/notebooks/1g_invoice_comp_1b_extract_out.ipynb"
       build_matrix: "outputs/verification_project/notebooks/2a_build_omie_matrix_out.ipynb"
       build_matrix_estim: "outputs/verification_project/notebooks/2b_build_omie_matrix_estim_out.ipynb"
       elec: "outputs/verification_project/notebooks/3_elec_out.ipynb"
@@ -223,17 +241,3 @@ outputs:
       merge_market_contract: "outputs/verification_project/notebooks/4b_merge_contract_omie_out.ipynb"
       hunt_invoices: "outputs/verification_project/notebooks/5_hunt_invoices_out.ipynb"
       estimacion: "outputs/verification_project/notebooks/5c_estimacion_out.ipynb"
-
-  invoice_comp:
-    folder: "outputs/invoice_comp"
-    elec: 
-      folder: "outputs/invoice_comp/elec"
-      seguimiento: "outputs/invoice_comp/elec/{client_id}_Seguimiento Electricidad.xlsx"
-  shared:
-    folder: "outputs/shared"
-    notebooks:
-      folder: "outputs/shared/notebooks"
-      elec_markets_2a: "outputs/shared/notebooks/2A_Elec_Markets_out.ipynb"
-      elec_markets_2b: "outputs/shared/notebooks/2B_Elec_Markets_out.ipynb"
-      perdidas: "outputs/shared/notebooks/2C_Perd_out.ipynb"
-      ssaa: "outputs/shared/notebooks/2D_SSAA_out.ipynb"

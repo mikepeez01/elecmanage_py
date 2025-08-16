@@ -24,6 +24,7 @@ setup(
         "beautifulsoup4",
         "selenium",
         "lxml",
+        "paramiko"
         
         # Document Processing
         "openpyxl",

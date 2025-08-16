@@ -1,3 +1,7 @@
+import time
+
+start = time.time()
+
 import papermill as pm
 import pandas as pd
 import utils.utils_var as utils_var
@@ -5,9 +9,10 @@ from config.config_loader import Config
 from load_compilation.load_compilation_exe_helper import run_load_compilation
 import yaml
 from utils.logging_setup import start_new_log, get_logger, get_stream_writers
-import time
+from invoice_comp.invoice_comp_exe_helper import run_invoice_comp
 from pathlib import Path
 import sys
+
 
 config = Config()
 
@@ -45,9 +50,9 @@ path_estructura_cargos = config.get_resolved_path("data_path.elec.regulation.est
 path_dto_peajes_electrointensivos = config.get_resolved_path("data_path.elec.regulation.dto_peajes_electrointensivos")
 
 # Notebooks paths
-nb_elec_prices = config.get_resolved_path("notebooks.shared.elec_markets_2a")
-nb_elec_perd = config.get_resolved_path("notebooks.shared.perdidas")
-nb_elec_ssaa = config.get_resolved_path("notebooks.shared.ssaa")
+nb_elec_prices = config.get_resolved_path("notebooks.markets.elec_markets_2a")
+nb_elec_perd = config.get_resolved_path("notebooks.markets.perdidas")
+nb_elec_ssaa = config.get_resolved_path("notebooks.markets.ssaa")
 nb_load = config.get_resolved_path("notebooks.load_compilation.load_compile")
 
 nb_elec = config.get_resolved_path("notebooks.verification_project.elec")
@@ -96,6 +101,8 @@ operation = params['operation']
 update_contract_data = params['update_contract_data']
 api_call = params['api_call']
 ssaa_dn = params['ssaa_dn']
+compile_load = params['compile_load']
+compile_invoices = params['compile_invoices']
 
 path_alias_elec = config.get_resolved_path("data_path.elec.customers.alias_elec")
 path_cliente_single = config.get_resolved_path("data_path.elec.customers.customer_single.folder", customer_id=cliente)
@@ -189,10 +196,19 @@ elif ssaa_dn == True and operation == 'estim':
     print(f"Notebook ejecutado y guardado en:\n {nb_elec_ssaa_out}")
 
 # Procesado curvas de carga
-log.info(f"Ejecutando flujo de trabajo load_compilation:\n")
-run_load_compilation('verification_project', config_path=config_path)
-log.info(f"Load_compilation ejecutado {nb_load_out}")
+if compile_load == True:
+    log.info(f"Ejecutando flujo de trabajo load_compilation:\n")
+    run_load_compilation('verification_project', config_path=config_path)
+    log.info(f"Load_compilation ejecutado {nb_load_out}")
+else:
+    log.info(f"Skipping load compilation step as compile_load is set to False")
 
+#### Incluir flujo de trabajo de invoice_comp
+if compile_invoices == True:
+    log.info(f"Ejecutando flujo de trabajo invoice_comp:\n")
+    run_invoice_comp('verification_project', config_path=config_path)
+else:
+    log.info("Skipping invoice compilation step as compile_invoices is set to False")
 
 # Construir matriz de mercado
 log.info(f"Ejecutando notebook:\n {nb_market_matrix}\n para la construcción de la matriz de mercado")
@@ -283,3 +299,6 @@ pm.execute_notebook(
 )
 log.info(f"Notebook ejecutado y guardado en:\n {nb_elec_out}")
 
+end = time.time()
+
+log.info(f"Verification executed in {end - start:.2f} seconds")

@@ -136,7 +136,8 @@ def export_excel_range_to_pdf(excel_path, pdf_path, sheet_name, cell_range):
     finally:
         # Close workbook and quit Excel
         workbook.close()
-        app.quit()
+        if not app.books:
+            app.quit()
 
 # Installation required: pip install xlwings
 

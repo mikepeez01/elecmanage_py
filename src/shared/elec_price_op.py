@@ -324,8 +324,9 @@ class FuturesElec:
 
         self.df_futures = df_futures
         
-    def plot_single_product(self, product, config: Config, percentiles=[10, 50, 75]):
+    def plot_single_product(self, product, config_path:str, percentiles=[10, 50, 75]):
 
+        config = Config(config_file=config_path)
         df = self.df_futures.copy()
         # Filter the DataFrame based on the product
         df_filtered = df[df['Contract'] == product]
@@ -424,6 +425,6 @@ class FuturesElec:
         # Add custom hover interaction
         fig.update_traces(mode='lines', hovertemplate='Date: %{x}<br>Settlement Price: %{y:.2f}')
 
-        fig.write_html(config.get_path("outputs.market_report.elec.graphs.html", name=f"Graph {product}"))
+        fig.write_html(config.get_path("outputs.markets.elec.graphs.html", name=f"Graph {product}"))
         # Show the plot
         fig.show()

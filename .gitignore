@@ -1,8 +1,8 @@
-# Ignore everything in the elec directory
-/data/customers/elec/*
-
 # Logs
 /logs/*
+
+# Ignore everything in the elec directory
+/data/customers/elec/*
 
 # Except the entire Generic directory and alias template file
 !/data/customers/elec/Generic
@@ -50,12 +50,19 @@
 /outputs/verification_project/estim/*
 /outputs/verification_project/verif/*
 
+# Ignore market data outputs
+/outputs/markets/*
+
 # Except the Generic folders
 !/outputs/verification_project/estim/Generic
 !/outputs/verification_project/verif/Generic
 
 /notebooks/manual/0_CapturedPrice.ipynb
 /notebooks/manual/0_General.ipynb
+/notebooks/manual/*.xlsx
+/notebooks/manual/*.csv
+/notebooks/manual/*.parquet
+/notebooks/manual/*.pkl
 
 # macOS system files
 .DS_Store

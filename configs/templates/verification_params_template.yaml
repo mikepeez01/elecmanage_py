@@ -14,5 +14,7 @@ operation: "verif"
 update_contract_data: true
 api_call: false
 ssaa_dn: false
+compile_load: false
+compile_invoices: false
 
 
