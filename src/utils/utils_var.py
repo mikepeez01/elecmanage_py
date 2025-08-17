@@ -180,7 +180,7 @@ def set_datetime_h(date: str, hour: str, load: str, df):
         lambda row: datetime(row[date].year, row[date].month, row[date].day, int(row[hour]) - 1),
         axis=1)
 
-    df[date] = pd.to_datetime(df[date], errors='coerce')
+    df.loc[:,date] = pd.to_datetime(df[date], errors='coerce')
 
     try: 
         df = df[['cups', date, load]]
