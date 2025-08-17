@@ -53,28 +53,34 @@ def market_data_retrieval(config_path, project, log_name):
             log_output=True,
 
         )
-        logging.info(f"Precios de electricidad descargados y procesados.")
+        logging.info(f"Precios de electricidad descargados y procesados.\n")
     if markets_params['perd'] == True:
-
+        
+        logging.info(f"Rescatando perdidas del sistema por tarifa (nb_elec_perd)...")
         pm.execute_notebook(
             nb_elec_perd, nb_elec_perd_out,
             parameters=dict(
-                nb_name = Path(nb_elec_perd_out).stem,
-                config_path = config_path,  
+                config_path = config_path,
+                log_name=log_name,
                 perd_path = perd_path
             ),
             log_output=True
         )
+        logging.info(f"Precios de perdidas rescatados y procesados.")
+        logging.info(f"Almacenados en: {perd_path}\n")
     
     if markets_params['ssaa'] == True:
+        logging.info(f"Rescatando servicios de ajuste (nb_elec_ssaa)...")
         pm.execute_notebook(
             nb_elec_ssaa, nb_elec_ssaa_out,
             parameters=dict(
-                nb_name = Path(nb_elec_ssaa_out).stem,
                 config_path = config_path,
+                log_name=log_name,
                 ssaa_path = ssaa_path_c2,
                 ssaa_path_df = path_ssaa_c2_df,
                 ssaa_path_df_dt = path_ssaa_c2_df_dt,
             ),
             log_output=True
         )
+        logging.info(f"Servicios de ajuste procesados y almacenados en:\n")
+        logging.info(f" - {path_ssaa_c2_df}")

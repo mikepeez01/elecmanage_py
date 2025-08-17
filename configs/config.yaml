@@ -31,6 +31,7 @@ data_path:
     raw: 
       folder: "data/raw/elec"
       ssaa: "data/raw/elec/ssaa_{mode}"
+      blackout_2025: "data/raw/elec/blackout_2025.xlsx"
     temp: 
       folder: "data/temp/elec"
       excel: "data/temp/elec/{name}.xlsx"

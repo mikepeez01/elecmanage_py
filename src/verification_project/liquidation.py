@@ -177,7 +177,7 @@ class Liquidation:
         self.excesos_potencia = excesos_potencia
 
     def _calculate_power_cost(self):
-
+        
         df = self.df_contrato.copy()
         df_power = self.df_power.copy()
         df_contrato = pd.merge(df, df_power, on='periodo', how='left')
@@ -313,6 +313,7 @@ class Liquidation:
 
          if self.contract_code in dict:
             # Call the corresponding method from the external dictionary
+            print(f"Simulando liquidación horaria de acuerdo con el código {self.contract_code} y la función de liquidación correspondiente {dict[self.contract_code]}")
             return dict[self.contract_code](self)
 
     def _get_ap_fixed_percentage(self):

@@ -7,6 +7,7 @@ import json
 from shared.elec_price_op import SpotElec
 from utils.utils_var import set_datetime_h
 from bs4 import BeautifulSoup
+import logging
 
 class Load:
 
@@ -53,7 +54,11 @@ class Load:
                 print(f"Warning: Provider folder '{provider_name}' does not exist. Skipping...")
                 continue
 
-            print(f"Processing provider: {provider_name}")
+            if provider_name == '.gitkeep':
+                print(f"Skipping .gitkeep file in {provider_path}")
+                continue
+
+            logging.info(f"Processing provider: {provider_name}")
             files = os.listdir(provider_path)
 
             for file in files:
@@ -61,6 +66,10 @@ class Load:
 
                 if file in self.processed_files:
                     print(f"  Skipping already processed file: {file}")
+                    continue
+
+                if file == '.gitkeep':
+                    print(f"  Skipping .gitkeep file in {file}")
                     continue
 
                 if os.path.isfile(file_path):

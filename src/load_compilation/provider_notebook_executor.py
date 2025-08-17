@@ -1,10 +1,11 @@
 import papermill as pm
 from config.config_loader import Config
 import yaml
-
+from utils.logging_setup import logging_setup
+import logging
 
 class ProviderNotebookExecutor:
-    def __init__(self, config: Config, common_paths, project_name="load_compilation"):
+    def __init__(self, config: Config, common_paths, project_name="load_compilation", log_name="load_compilation_exe"):
         """
         Initialize with Config instance and common path dict.
         Provider notebooks will be built dynamically from the provider params file.
@@ -13,6 +14,13 @@ class ProviderNotebookExecutor:
         self.common_paths = common_paths
         self.project_name = project_name
         self.provider_notebooks = {}  # Will be populated when loading provider params
+        self.log_name = log_name
+
+        config_path=config.get_resolved_path("configs.config")
+        self.config_path = config_path
+
+        # Set up logging
+        logging_setup(log_name=log_name, config_path=config_path, overwrite=False)
 
     def build_provider_notebooks(self, provider_names):
         """
@@ -25,7 +33,7 @@ class ProviderNotebookExecutor:
                 notebook_path = self.config.get_resolved_path("notebooks.load_compilation.provider_nb", provider=provider)
                 provider_notebooks[provider] = notebook_path
             except Exception as e:
-                print(f"Warning: could not resolve notebook path for provider '{provider}': {e}")
+                logging.info(f"Warning: could not resolve notebook path for provider '{provider}': {e}")
         return provider_notebooks
 
     def get_provider_path_mappings(self):
@@ -71,20 +79,24 @@ class ProviderNotebookExecutor:
             if path_key in self.common_paths:
                 output[path_key] = self.common_paths[path_key]
             else:
-                print(f"Warning: Required path '{path_key}' not found for provider '{provider_name}'")
+                logging.info(f"Warning: Required path '{path_key}' not found for provider '{provider_name}'")
         
         return output
 
-    def execute_provider_notebooks(self, provider_parameters):
+    def execute_provider_notebooks(self, provider_parameters: dict):
         """
         Execute notebooks whose providers have execute=True.
         """
         for provider_name, notebook_path in self.provider_notebooks.items():
             params = provider_parameters.get(provider_name, {})
+            params.update({
+                'config_path': self.config_path,
+                'log_name': self.log_name,
+            })
             execute_flag = params.get('execute', False)
 
             if not execute_flag:
-                print(f"Skipping provider '{provider_name}': execute flag is False.")
+                logging.info(f"Skipping provider '{provider_name}': execute flag is False.")
                 continue
 
             try:
@@ -92,10 +104,10 @@ class ProviderNotebookExecutor:
                     f"outputs.{self.project_name}.notebooks.provider_nb", provider=provider_name
                 )
             except Exception as e:
-                print(f"Error resolving output path for provider '{provider_name}': {e}")
+                logging.info(f"Error resolving output path for provider '{provider_name}': {e}")
                 continue
 
-            print(f"Executing notebook for provider '{provider_name}' with parameters: {params}")
+            logging.info(f"Executing notebook for provider '{provider_name}' with parameters: {params}")
 
             try:
                 pm.execute_notebook(
@@ -104,9 +116,9 @@ class ProviderNotebookExecutor:
                     parameters=params,
                     log_output=True
                 )
-                print(f"Completed execution of '{provider_name}' notebook; output saved at: {output_notebook_path}")
+                logging.info(f"Completed execution of '{provider_name}' notebook; output saved at: {output_notebook_path}")
             except Exception as e:
-                print(f"Error executing notebook for provider '{provider_name}': {e}")
+                logging.info(f"Error executing notebook for provider '{provider_name}': {e}")
 
     def execute_workflow(self, provider_params_path):
         """
@@ -119,7 +131,7 @@ class ProviderNotebookExecutor:
         
         # Extract provider names from the loaded params file
         provider_names = list(all_provider_params.keys())
-        print(f"Found providers in config: {provider_names}")
+        logging.info(f"Found providers in config: {provider_names}")
         
         # Build provider notebooks mapping based on discovered providers
         self.provider_notebooks = self.build_provider_notebooks(provider_names)

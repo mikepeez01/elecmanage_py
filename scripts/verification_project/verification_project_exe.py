@@ -8,11 +8,12 @@ import utils.utils_var as utils_var
 from config.config_loader import Config
 from load_compilation.load_compilation_exe_helper import run_load_compilation
 import yaml
-from utils.logging_setup import start_new_log, get_logger, get_stream_writers
 from invoice_comp.invoice_comp_exe_helper import run_invoice_comp
 from pathlib import Path
 import sys
-
+from markets.markets_exe_helper import market_data_retrieval
+from utils.logging_setup import logging_setup
+import logging
 
 config = Config()
 
@@ -99,10 +100,9 @@ issue_year = params['issue_year']
 issue_month = params['issue_month']
 operation = params['operation']
 update_contract_data = params['update_contract_data']
-api_call = params['api_call']
-ssaa_dn = params['ssaa_dn']
 compile_load = params['compile_load']
 compile_invoices = params['compile_invoices']
+market_data = params['market_data']
 
 path_alias_elec = config.get_resolved_path("data_path.elec.customers.alias_elec")
 path_cliente_single = config.get_resolved_path("data_path.elec.customers.customer_single.folder", customer_id=cliente)
@@ -110,113 +110,45 @@ path_cliente_estim = config.get_path("outputs.verification_project.estim.cliente
 
 path_omie_matrix = config.get_path("data_path.elec.verification_project.omie_matrix", operation=operation)
 
-instant = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
 # Explicitly start a fresh log for this run
-start_new_log(log_name=f"{operation} {cliente} {instant}", config=config)
-log = get_logger(name='Executor script')
-
-# Create stdout/stderr stream adapters that forward to the logger
-stdout_w, stderr_w = get_stream_writers(log)
+instant = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
+log_name=f"{operation} {cliente} {instant}",
+logging_setup(
+    log_name=log_name,
+    config_path=config_path,
+    overwrite=True
+)
 
 if operation == 'verif':
-    log.info(f"Starting {operation} run for customer {cliente} for {issue_year}-{issue_month}")
+    logging.info(f"Starting {operation} run for customer {cliente} for {issue_year}-{issue_month}")
 elif operation == 'estim':
-    log.info(f"Starting {operation} run for customer {cliente} for {estim_year}-{estim_month}")
+    logging.info(f"Starting {operation} run for customer {cliente} for {estim_year}-{estim_month}")
 
 # Descarga precios de electricidad
-if api_call == True:
-    nb_out = nb_elec_prices_out
-    log.info(f"Ejecutando notebook: {nb_elec_prices} para la descarga de precios de electricidad")
-    pm.execute_notebook( 
-        nb_elec_prices, nb_out,
-        parameters=dict(
-            nb_name = Path(nb_out).stem,
-            config_path = config_path,
-            festivos_path = festivos_path,
-            periodos_cal_path = periodos_cal_path,
-            futures_path = futures_path,
-            spot_path = spot_path,
-            spot_formated_path = spot_formated_path,
-        ),
-        stdout_file=sys.stdout,
-        stderr_file=sys.stderr,
-        log_output=True
-    )
-    log.info(f"Notebook ejecutado y guardado en:\n {nb_out}")
-
-# Descarga pérdidas
-if api_call == True and operation == 'verif':
-    log.info(f"Ejecutando notebook:\n {nb_elec_perd}\n para la descarga de pérdidas de electricidad")
-    pm.execute_notebook(
-        nb_elec_perd, nb_elec_perd_out,
-        parameters=dict(
-            nb_name = Path(nb_elec_perd_out).stem,
-            config_path = config_path,  
-            estado = estado,
-            perd_path = perd_path
-        ),
-        stdout_file=stdout_w,
-        stderr_file=stderr_w,
-        log_output=True
-    )
-    log.info(f"Notebook ejecutado y guardado en: {nb_elec_perd_out}")
-
-# Descarga servicios de ajuste
-if ssaa_dn == True and operation == 'verif':
-    log.info(f"Ejecutando notebook:\n {nb_elec_ssaa}\n para la descarga de servicios de ajuste de electricidad")
-    pm.execute_notebook(
-        nb_elec_ssaa, nb_elec_ssaa_out,
-        parameters=dict(
-            nb_name = Path(nb_elec_ssaa_out).stem,
-            config_path = config_path,
-            ssaa_path = ssaa_path_c2,
-            ssaa_path_df = path_ssaa_c2_df,
-            ssaa_path_df_dt = path_ssaa_c2_df_dt,
-        ),
-        stdout_file=stdout_w,
-        stderr_file=stderr_w,
-        log_output=True
-    )
-    log.info(f"Notebook ejecutado y guardado en:\n {nb_elec_ssaa_out}")
-elif ssaa_dn == True and operation == 'estim':
-    log.info(f"Ejecutando notebook:\n {nb_elec_ssaa}\n para la descarga de servicios de ajuste de electricidad")
-    pm.execute_notebook(
-        nb_elec_ssaa, nb_elec_ssaa_out,
-        parameters=dict(
-            nb_name = Path(nb_elec_ssaa_out).stem,
-            config_path = config_path,
-            ssaa_path = ssaa_path_a2,
-            ssaa_path_df = path_ssaa_a2_df,
-            ssaa_path_df_dt = path_ssaa_a2_df_dt,
-        ),
-        stdout_file=stdout_w,
-        stderr_file=stderr_w,
-        log_output=True
-    )
-    print(f"Notebook ejecutado y guardado en:\n {nb_elec_ssaa_out}")
+if market_data == True:
+    market_data_retrieval(config_path=config_path, project="verification_project", log_name=log_name)
 
 # Procesado curvas de carga
 if compile_load == True:
-    log.info(f"Ejecutando flujo de trabajo load_compilation:\n")
+    logging.info(f"Ejecutando flujo de trabajo load_compilation:\n")
     run_load_compilation('verification_project', config_path=config_path)
-    log.info(f"Load_compilation ejecutado {nb_load_out}")
+    logging.info(f"Load_compilation ejecutado {nb_load_out}")
 else:
-    log.info(f"Skipping load compilation step as compile_load is set to False")
+    logging.info(f"Skipping load compilation step as compile_load is set to False")
 
 #### Incluir flujo de trabajo de invoice_comp
 if compile_invoices == True:
-    log.info(f"Ejecutando flujo de trabajo invoice_comp:\n")
+    logging.info(f"Ejecutando flujo de trabajo invoice_comp:\n")
     run_invoice_comp('verification_project', config_path=config_path)
 else:
-    log.info("Skipping invoice compilation step as compile_invoices is set to False")
+    logging.info("Skipping invoice compilation step as compile_invoices is set to False")
 
 # Construir matriz de mercado
-log.info(f"Ejecutando notebook:\n {nb_market_matrix}\n para la construcción de la matriz de mercado")
+logging.info(f"Ejecutando notebook:\n {nb_market_matrix}\n para la construcción de la matriz de mercado")
 if operation == 'verif':
     pm.execute_notebook(
         nb_market_matrix, nb_market_matrix_out,
         parameters=dict(
-            nb_name = Path(nb_market_matrix_out).stem,
             config_path = config_path,
             ssaa_path_df = path_ssaa_c2_df,
             perd_path = perd_path,
@@ -225,15 +157,12 @@ if operation == 'verif':
             futures_path = futures_path,
             path_omie_matrix = path_omie_matrix,
         ),
-        stdout_file=stdout_w,
-        stderr_file=stderr_w,
         log_output=True
     )
 elif operation == 'estim':
     pm.execute_notebook(
         nb_market_matrix_estim, nb_market_matrix_estim_out,
         parameters=dict(
-            nb_name = Path(nb_market_matrix_estim_out).stem,
             config_path = config_path,
             year = estim_year,
             month = estim_month,
@@ -245,19 +174,17 @@ elif operation == 'estim':
             path_omie_matrix = path_omie_matrix,
             compodem_a2_path = compodem_a2_path,
         ),
-        stdout_file=stdout_w,
-        stderr_file=stderr_w,
         log_output=True
     )
-log.info(f"Notebook ejecutado y guardado en:\n {nb_market_matrix_out}")
+logging.info(f"Notebook ejecutado y guardado en:\n {nb_market_matrix_out}")
 
 # Ejecutar notebook maestro
-log.info(f"Ejecutando notebook:\n {nb_elec}\n para la verificación de contratos de electricidad")
+logging.info(f"Ejecutando notebook:\n {nb_elec}\n para la verificación de contratos de electricidad")
 pm.execute_notebook(
     nb_elec, nb_elec_out,
     parameters=dict(
-        nb_name = Path(nb_elec_out).stem,
         config_path = config_path,
+        log_name = log_name,
         cliente = cliente,#
         estim_year = estim_year,
         estim_month = estim_month,
@@ -265,8 +192,6 @@ pm.execute_notebook(
         issue_month = issue_month,
         operation = operation,
         update_contract_data = update_contract_data,
-        api_call = api_call,
-        ssaa_dn = ssaa_dn,
         path_alias_elec = path_alias_elec, #
         path_omie_matrix = path_omie_matrix,
         path_load_parquet = path_load_parquet,
@@ -293,12 +218,10 @@ pm.execute_notebook(
         nb_estim_out = nb_estim_out,
         nb_verif = nb_verif,
     ),
-    stdout_file=stdout_w,
-    stderr_file=stderr_w,
     log_output=True
 )
-log.info(f"Notebook ejecutado y guardado en:\n {nb_elec_out}")
+logging.info(f"Notebook ejecutado y guardado en:\n {nb_elec_out}")
 
 end = time.time()
 
-log.info(f"Verification executed in {end - start:.2f} seconds")
+logging.info(f"Verification executed in {end - start:.2f} seconds")
