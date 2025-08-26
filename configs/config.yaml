@@ -91,7 +91,6 @@ data_path:
       data_raw: "data/invoice_comp/elec/raw_data_elec"
       xml_folder_clean: "data/invoice_comp/elec/xml_folder_clean"
       processed_files: "data/invoice_comp/elec/processed_files.json"
-      processed_files: "data/invoice_comp/elec/processed_files.json"
       record_sftp_provider: "data/invoice_comp/elec/record_{provider}.json"
       invoices: 
         folder: "data/invoice_comp/elec/invoices"
@@ -124,13 +123,9 @@ notebooks:
     folder: "notebooks/automated"
   manual:
     folder: "notebooks/manual"
-    captured_price: "notebooks/manual/0_CapturedPrice.ipynb"
-    electrointensiv: "notebooks/manual/0_electrointensiv.ipynb"
-    ppa: "notebooks/manual/0_PPA.ipynb"
-    draft: "notebooks/manual/draft.ipynb"
-    fotovoltaica: "notebooks/manual/Fotovoltaica.ipynb"
-    fotovoltaica_m: "notebooks/manual/Fotovoltaica_m.ipynb"
-    pr_rectificativas: "notebooks/manual/PR_rectificativas.ipynb"
+    general: "notebooks/manual/0_general.ipynb"
+    opt_single: "notebooks/manual/1_opt_potencia_single.ipynb"
+    opt_grouped: "notebooks/manual/1_opt_potencia_grouped.ipynb"
   invoice_comp:
     folder: "notebooks/invoice_comp"
     arrange: "notebooks/invoice_comp/1a_arrange.ipynb"
@@ -271,7 +266,7 @@ outputs:
       cliente: 
         folder: "outputs/verification_project/estim/{customer_id}"
         output_estim_excel: "outputs/verification_project/estim/{customer_id}/Estimación Fra. {alias} {month}_{year}.xlsx"
-        output_estim_pdf: /outputs/verification_project/estim/{customer_id}/Estimación Fra. {alias} {month} {year}.pdf"
+        output_estim_pdf: "outputs/verification_project/estim/{customer_id}/Estimación Fra. {alias} {month} {year}.pdf"
     verif:
       folder: "outputs/verification_project/verif"
       cliente: 

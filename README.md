@@ -1,5 +1,3 @@
-***
-
 # Energy Data Automation & Analysis Project
 
 ***
@@ -17,13 +15,6 @@ All code, configuration, templates, outputs, and scripts are organized via a cen
 > ```yaml
 > base_path: "/Users/user1/elecmanage/"
 > ```
-
-***
-
-## Access
-
-**This repository is private.**  
-Contact **Mikel Pérez** ([mperezyarno@alumni.unav.es](mailto:mperezyarno@alumni.unav.es)) to request a personal access token.
 
 ***
 
@@ -103,8 +94,8 @@ See `configs/config.yaml` for full directory and placeholder mapping.
 Request your token first, then:
 
 ```bash
-git clone https://@github.com/[your-username]/[your-repo].git
-cd [your-repo]
+git clone https://github.com/mikepeez01/elecmanage_py.git
+cd [elecmanage_py]
 ```
 
 ### 2. Create Anaconda Environment
@@ -239,8 +230,10 @@ This guide walks you through extending the repository to include new customers o
     - `contrato:` Contract group number.
 
 ### 2. Create Customer-Contract XLSM File(s)
+
 - Path: `data/customers/elec/{customer_id}/datos_ELEC_{customer_id}_{contract_id}.xlsm`
 - Example for “ClienteNuevo”, contract group 1:
+
     ```
     data/customers/elec/ClienteNuevo/datos_ELEC_ClienteNuevo_1.xlsm
     ```

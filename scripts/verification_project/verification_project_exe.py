@@ -159,6 +159,7 @@ if operation == 'verif':
         ),
         log_output=True
     )
+    logging.info(f"Notebook ejecutado y guardado en:\n {nb_market_matrix_out}")
 elif operation == 'estim':
     pm.execute_notebook(
         nb_market_matrix_estim, nb_market_matrix_estim_out,
@@ -176,7 +177,7 @@ elif operation == 'estim':
         ),
         log_output=True
     )
-logging.info(f"Notebook ejecutado y guardado en:\n {nb_market_matrix_out}")
+    logging.info(f"Notebook ejecutado y guardado en:\n {nb_market_matrix_estim_out}")
 
 # Ejecutar notebook maestro
 logging.info(f"Ejecutando notebook:\n {nb_elec}\n para la verificación de contratos de electricidad")

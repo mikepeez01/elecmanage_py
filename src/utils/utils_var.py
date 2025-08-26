@@ -41,23 +41,42 @@ def map_month (es_date):
 
     return (months_mapping[es_date])
 
-def map_month_name (num):
+def map_month_name (num, language='es'):
 
-    months_mapping = {
-        1: 'ene',
-        2: 'feb',
-        3: 'mar',
-        4: 'abr',
-        5: 'may',
-        6: 'jun',
-        7: 'jul',
-        8: 'ago',
-        9: 'sep',
-        10: 'oct',
-        11: 'nov',
-        12: 'dic'
-    }
-    return (months_mapping[num])
+    if language == 'es':
+
+        months_mapping = {
+            1: 'ene',
+            2: 'feb',
+            3: 'mar',
+            4: 'abr',
+            5: 'may',
+            6: 'jun',
+            7: 'jul',
+            8: 'ago',
+            9: 'sep',
+            10: 'oct',
+            11: 'nov',
+            12: 'dic'
+        }
+        return (months_mapping[num])
+    elif language == 'en':
+        
+        months_mapping = {
+            1: 'jan',
+            2: 'feb',
+            3: 'mar',
+            4: 'apr',
+            5: 'may',
+            6: 'jun',
+            7: 'jul',
+            8: 'aug',
+            9: 'sep',
+            10: 'oct',
+            11: 'nov',
+            12: 'dec'
+        }
+        return (months_mapping[num])
 
 def map_month_folder (num):
 

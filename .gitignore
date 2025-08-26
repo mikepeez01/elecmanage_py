@@ -20,6 +20,9 @@
 /data/processed/elec/facturas_elec.db
 /data/processed/elec/facturas_elec_manual.pkl
 /data/processed/elec/facturas_elec_manual.pkl
+/data/processed/elec/elec_load.parquet
+/data/processed/elec/hist/*
+!/data/processed/elec/hist/.gitkeep
 /data/verification_project/elec/omie_matrix_estim.pkl
 /data/verification_project/elec/omie_matrix_verif.pkl
 /data/temp/elec/*

@@ -129,22 +129,7 @@ class Liquicomon:
             for i in compodem_list:
                 if 'C2' in i:
                     df = pd.read_csv(f'{self.extract_path}/raw_data/{i}', sep=';', skiprows=2, header=None)
-                    df = df[(df[3] == 'NOCUR') 
-                            # &
-                            # ((df[2] == 'RT3') |
-                            # (df[2] == 'CT3') |
-                            # (df[2] == 'RT6') |
-                            # (df[2] == 'BS3') |
-                            # (df[2] == 'BALX') |
-                            # (df[2] == 'EXD') |
-                            # (df[2] == 'DSV') |
-                            # (df[2] == 'IN7') |
-                            # (df[2] == 'CFP') |
-                            # (df[2] == 'MAJ3') |
-                            # (df[2] == 'RAD3') |
-                            # (df[2] == 'RAD1')
-                            # )
-                    ]
+                    df = df[(df[3] == 'NOCUR')]
                     ds = df.groupby([0,1]).sum()
                     df1 = pd.DataFrame(ds)
                     df1 = df1.drop([2,3], axis=1)
@@ -159,7 +144,6 @@ class Liquicomon:
                                                 0),  # Minute (always 0)
                                     axis=1)
                     elif len(df1) == 23:
-
                         df1['datetime'] = df1.apply(lambda row: datetime(
                                                 row[0].year,    # Year from first column
                                                 row[0].month,   # Month from first column
@@ -167,9 +151,9 @@ class Liquicomon:
                                                 (int(row[1]) - 1 if int(row[1]) <= 2 else int(row[1])),  # Hour logic
                                                 0),  # Minute (always 0)
                                     axis=1)
-
                     else:
                         df1['datetime'] = df1.apply(lambda row: datetime(row[0].year, row[0].month, row[0].day, int(row[1]) - 1, 0), axis=1)
+
                     df1 = df1.drop([0, 1], axis=1)
                     df1 = df1[['datetime', 6]]
                     df1.columns = ['datetime', 'ssaa']
@@ -178,14 +162,12 @@ class Liquicomon:
             
                 df_concat = df_concat.sort_values(by= 'datetime')
                 df_concat = df_concat.reset_index(drop=True)
+
             df_concat.loc[:, 'month'] = df_concat['datetime'].apply(lambda x: x.month)
             df_concat.loc[:,'year'] = df_concat['datetime'].apply(lambda x: x.year)
-
             df_concat = df_concat[['datetime', 'month', 'year', 'ssaa']]
 
             self.df_ssaa = df_concat
-
-        return self
     
     def ssaa_desgolsado (self):
 

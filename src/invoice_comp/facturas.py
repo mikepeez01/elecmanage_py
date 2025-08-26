@@ -4,15 +4,15 @@ import urllib3
 import utils.utils_var as utils_var
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-
 class FacturasElec:
 
-    def __init__(self, df: pd.DataFrame):
+    def __init__(self, df: pd.DataFrame, language: str = 'en'):
 
         self.facturas = df
         self.df_energia = pd.DataFrame()
         self.df_potencia = pd.DataFrame()
         self.df_maximetros = pd.DataFrame()
+        self.language = language
 
     def get_measurement(self, measure):
 
@@ -65,7 +65,7 @@ class FacturasElec:
 
         try:
             df.loc[:, 'period'] = df.apply(lambda row:\
-                                        f'{utils_var.map_month_name(row['month'])}-{str(row['year'])[-2:]}', axis=1)
+                                        f'{utils_var.map_month_name(row['month'], self.language)}-{str(row['year'])[-2:]}', axis=1)
             df = df.drop(['month', 'year'], axis=1)
             columns = df.columns.tolist()  # Get current columns as a list
             columns.insert(2, columns.pop(columns.index('period')))  # Move 'B' to third position
